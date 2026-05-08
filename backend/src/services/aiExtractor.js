@@ -97,11 +97,12 @@ ${prompt}`;
   }
 }
 
-async function saveExtraction({ userId, docName, rawText, extracted, type }) {
+async function saveExtraction({ userId, docName, rawText, extracted, type, fileMeta = null }) {
   const document = await Document.create({
     userId,
     name: docName,
     type,
+    file: fileMeta,
     rawText: truncateText(rawText, 5000),
     summary: extracted.summary || '',
     insights: Array.isArray(extracted.insights) ? extracted.insights : [],
@@ -127,7 +128,7 @@ async function saveExtraction({ userId, docName, rawText, extracted, type }) {
   return { document, savedTasks };
 }
 
-async function extractWithAI(rawText, userId, docName, type = 'pdf') {
+async function extractWithAI(rawText, userId, docName, type = 'pdf', fileMeta = null) {
   const prompt = buildPrompt(rawText);
 
   let extracted;
@@ -154,6 +155,7 @@ async function extractWithAI(rawText, userId, docName, type = 'pdf') {
     rawText,
     extracted: normalized,
     type,
+    fileMeta,
   });
 
   return {

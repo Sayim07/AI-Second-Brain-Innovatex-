@@ -2,6 +2,7 @@ const express = require('express');
 const Document = require('../models/Document');
 const Task = require('../models/Task');
 const { verifyToken } = require('../middleware/auth');
+const { deleteCloudinaryFile } = require('../services/fileStorage');
 
 const router = express.Router();
 
@@ -29,6 +30,7 @@ router.delete('/:id', verifyToken, async (req, res) => {
   }
 
   await Task.deleteMany({ sourceDocId: document._id, userId: req.user.uid });
+  await deleteCloudinaryFile(document.file);
   await document.deleteOne();
 
   res.json({ success: true, message: 'Document and tasks deleted' });

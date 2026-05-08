@@ -1,17 +1,30 @@
 const express = require('express');
 const multer = require('multer');
-const pdfParse = require('pdf-parse');
 const { verifyToken } = require('../middleware/auth');
 const { extractWithAI } = require('../services/aiExtractor');
+const { storeAndExtractUpload } = require('../services/fileStorage');
 
 const router = express.Router();
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: 20 * 1024 * 1024 },
   fileFilter(req, file, cb) {
-    if (file.mimetype !== 'application/pdf') {
-      return cb(new Error('Only PDF files are supported'));
+    const allowedMimeTypes = new Set([
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'text/csv',
+      'application/csv',
+      'application/vnd.ms-excel',
+    ]);
+
+    const allowedExtensions = ['.pdf', '.docx', '.xlsx', '.csv'];
+    const lowerName = String(file.originalname || '').toLowerCase();
+    const hasAllowedExtension = allowedExtensions.some((extension) => lowerName.endsWith(extension));
+
+    if (!allowedMimeTypes.has(file.mimetype) && !hasAllowedExtension) {
+      return cb(new Error('Supported file types are PDF, DOCX, XLSX, and CSV'));
     }
     cb(null, true);
   },
@@ -22,18 +35,25 @@ router.post('/upload', verifyToken, upload.single('file'), async (req, res) => {
     return res.status(400).json({ success: false, message: 'File is required' });
   }
 
-  const extracted = await pdfParse(req.file.buffer);
-  const text = extracted.text || '';
+  try {
+    const { text, fileMeta, type } = await storeAndExtractUpload(req.file);
 
-  if (text.trim().length < 50) {
-    return res.status(400).json({
+    if (text.trim().length < 50) {
+      return res.status(400).json({
+        success: false,
+        message: 'Could not extract enough text from the uploaded file. Try a text-based file.',
+      });
+    }
+
+    const result = await extractWithAI(text, req.user.uid, req.file.originalname, type, fileMeta);
+    res.json(result);
+  } catch (error) {
+    const statusCode = error.statusCode || 500;
+    res.status(statusCode).json({
       success: false,
-      message: 'Could not extract text from PDF. Try a text-based PDF.',
+      message: error.message || 'Failed to process uploaded file',
     });
   }
-
-  const result = await extractWithAI(text, req.user.uid, req.file.originalname, 'pdf');
-  res.json(result);
 });
 
 router.post('/text', verifyToken, async (req, res) => {

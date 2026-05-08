@@ -19,7 +19,7 @@ export default function Upload() {
   const fileInputRef = useRef(null);
   const timeoutsRef = useRef([]);
 
-  const [tab, setTab] = useState('pdf');
+  const [tab, setTab] = useState('file');
   const [selectedFile, setSelectedFile] = useState(null);
   const [dragActive, setDragActive] = useState(false);
   const [text, setText] = useState('');
@@ -46,12 +46,25 @@ export default function Upload() {
 
   const normalizeFile = (file) => {
     if (!file) return;
-    if (file.type !== 'application/pdf') {
-      toast.error('Only PDF files are supported');
+
+    const allowedMimeTypes = new Set([
+      'application/pdf',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'text/csv',
+      'application/csv',
+      'application/vnd.ms-excel',
+    ]);
+    const allowedExtensions = ['.pdf', '.docx', '.xlsx', '.csv'];
+    const lowerName = file.name.toLowerCase();
+    const isAllowed = allowedMimeTypes.has(file.type) || allowedExtensions.some((extension) => lowerName.endsWith(extension));
+
+    if (!isAllowed) {
+      toast.error('Supported files are PDF, DOCX, XLSX, and CSV');
       return;
     }
-    if (file.size > 10 * 1024 * 1024) {
-      toast.error('File too large. Max size is 10MB.');
+    if (file.size > 20 * 1024 * 1024) {
+      toast.error('File too large. Max size is 20MB.');
       return;
     }
     setSelectedFile(file);
@@ -128,11 +141,11 @@ export default function Upload() {
           <p className="mt-2 text-slate-500">Upload a PDF or paste text. We'll extract your tasks automatically.</p>
 
           <div className="mt-6 flex rounded-full bg-slate-100 p-1 text-sm font-semibold text-slate-500">
-            <button type="button" onClick={() => setTab('pdf')} className={`flex-1 rounded-full px-4 py-2.5 transition ${tab === 'pdf' ? 'bg-blue-600 text-white shadow' : ''}`}>Upload PDF</button>
+            <button type="button" onClick={() => setTab('file')} className={`flex-1 rounded-full px-4 py-2.5 transition ${tab === 'file' ? 'bg-blue-600 text-white shadow' : ''}`}>Upload File</button>
             <button type="button" onClick={() => setTab('text')} className={`flex-1 rounded-full px-4 py-2.5 transition ${tab === 'text' ? 'bg-blue-600 text-white shadow' : ''}`}>Paste Text / Email</button>
           </div>
 
-          {tab === 'pdf' ? (
+          {tab === 'file' ? (
             <div className="mt-6 space-y-4">
               <div
                 onClick={() => fileInputRef.current?.click()}
@@ -142,10 +155,10 @@ export default function Upload() {
                 className={`flex h-56 cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed transition ${dragActive ? 'border-blue-500 bg-blue-50' : 'border-slate-300 bg-slate-50 hover:border-blue-400 hover:bg-blue-50/70'}`}
               >
                 <UploadCloud size={42} className="text-blue-500" />
-                <p className="mt-4 text-lg font-semibold text-slate-900">Drag & drop your PDF here</p>
-                <p className="text-sm text-slate-500">or click to browse</p>
+                <p className="mt-4 text-lg font-semibold text-slate-900">Drag & drop your file here</p>
+                <p className="text-sm text-slate-500">PDF, DOCX, XLSX, or CSV</p>
               </div>
-              <input ref={fileInputRef} type="file" accept="application/pdf" className="hidden" onChange={(event) => normalizeFile(event.target.files?.[0])} />
+              <input ref={fileInputRef} type="file" accept=".pdf,.docx,.xlsx,.csv,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" className="hidden" onChange={(event) => normalizeFile(event.target.files?.[0])} />
 
               {selectedFile ? (
                 <div className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3">
@@ -164,7 +177,7 @@ export default function Upload() {
 
               <button disabled={!selectedFile || processing} onClick={processPdf} className="flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3.5 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60">
                 {processing ? <Loader2 className="animate-spin" size={18} /> : null}
-                {processing ? 'AI is reading your document...' : 'Process Document'}
+                {processing ? 'AI is reading your file...' : 'Process File'}
               </button>
             </div>
           ) : (
