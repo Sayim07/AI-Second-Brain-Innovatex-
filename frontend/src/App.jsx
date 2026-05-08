@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import Lenis from 'lenis';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import Landing from './pages/Landing';
@@ -27,6 +29,27 @@ function ProtectedRoute({ children }) {
 }
 
 export default function App() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.6,
+      easing: (t) => Math.min(1, 1.001 - (2 ** (-10 * t))),
+      smoothWheel: true,
+    });
+
+    let rafId = 0;
+    const raf = (time) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
