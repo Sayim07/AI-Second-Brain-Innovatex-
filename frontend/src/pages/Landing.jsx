@@ -1,5 +1,6 @@
 import { ArrowRight, Brain, CheckCircle2, FileText, Menu, Sparkles, Upload, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import PixelBlast from '@/components/ui/PixelBlast';
 import { SplineScene } from '@/components/ui/splite';
 
 function FeatureCard({ icon: Icon, title, description, index }) {
@@ -20,13 +21,29 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      {/* Spline 3D background - layer 0 */}
-      <div className="fixed inset-0 top-0 left-0 w-full h-full z-0 pointer-events-none opacity-90">
+      {/* 3D Robot background - layer 0 */}
+      <div className="fixed inset-0 top-0 left-0 w-full h-full z-0 pointer-events-none opacity-60">
         <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
       </div>
+
+      {/* PixelBlast background overlay - layer 1 */}
+      <div className="fixed inset-0 top-0 left-0 w-full h-full z-0 pointer-events-none opacity-60 mix-blend-screen">
+        <PixelBlast
+          className="w-full h-full"
+          color="#3B82F6"
+          pixelSize={3}
+          patternScale={1.8}
+          patternDensity={0.92}
+          liquid={false}
+          enableRipples={false}
+          speed={0.4}
+          edgeFade={0.32}
+          transparent
+        />
+      </div>
       
-      {/* Gradient overlay - layer 1 */}
-      <div className="fixed inset-0 top-0 left-0 h-full w-full z-0 pointer-events-none bg-gradient-to-b from-slate-900/70 to-slate-900/20" />
+      {/* Gradient overlay - layer 2 */}
+      <div className="fixed inset-0 top-0 left-0 h-full w-full z-0 pointer-events-none bg-gradient-to-b from-slate-900/78 to-slate-900/30" />
       
       {/* All content - layer 2+ */}
       <div className="relative z-10">
