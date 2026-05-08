@@ -28,36 +28,9 @@ async function callGemini(prompt) {
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
   const result = await model.generateContent(prompt);
   return result.response.text();
-}
-
-async function callGroq(prompt) {
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    throw new Error('GROQ_API_KEY is not defined');
-  }
-
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'llama3-8b-8192',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.2,
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error('Groq request failed');
-  }
-
-  const data = await response.json();
-  return data?.choices?.[0]?.message?.content || '';
 }
 
 function buildPrompt(rawText) {
@@ -95,19 +68,32 @@ ${text}`;
 function fallbackResult() {
   return {
     tasks: [],
-    insights: ['Could not parse document'],
-    summary: 'Processing failed',
+    insights: ['AI processing failed. Please try again.'],
+    summary: 'Could not process document.',
   };
 }
 
 async function parseModelResponse(prompt) {
-  const responseText = await callGemini(prompt);
   try {
+    const responseText = await callGemini(prompt);
     return parseStructuredJson(responseText);
   } catch (firstError) {
-    const retryPrompt = `${prompt}\n\nYour previous response was not valid JSON. Return ONLY the JSON object, nothing else.`;
-    const retryText = await callGemini(retryPrompt);
-    return parseStructuredJson(retryText);
+    console.error('First Gemini attempt failed:', firstError.message);
+    
+    // Retry with corrective prompt
+    const retryPrompt = `Your previous response was not valid JSON. Return ONLY this JSON object with no explanation, no markdown, no code fences:
+{"tasks":[],"insights":[],"summary":""}
+
+Now process this text and fill the JSON:
+${prompt}`;
+
+    try {
+      const retryText = await callGemini(retryPrompt);
+      return parseStructuredJson(retryText);
+    } catch (retryError) {
+      console.error('Gemini retry also failed:', retryError.message);
+      throw retryError;
+    }
   }
 }
 
@@ -148,12 +134,8 @@ async function extractWithAI(rawText, userId, docName, type = 'pdf') {
   try {
     extracted = await parseModelResponse(prompt);
   } catch (geminiError) {
-    try {
-      const groqText = await callGroq(prompt);
-      extracted = parseStructuredJson(groqText);
-    } catch (groqError) {
-      extracted = fallbackResult();
-    }
+    console.error('Gemini API error:', geminiError.message);
+    extracted = fallbackResult();
   }
 
   if (!extracted || typeof extracted !== 'object') {

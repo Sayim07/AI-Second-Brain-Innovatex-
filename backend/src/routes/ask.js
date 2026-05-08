@@ -66,7 +66,7 @@ async function callGemini(prompt) {
   }
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
   const result = await model.generateContent(prompt);
   return result.response.text();
 }
@@ -140,7 +140,8 @@ router.post('/', verifyToken, async (req, res) => {
     try {
       answer = await callGemini(prompt);
     } catch (error) {
-      answer = 'The AI service is temporarily unavailable. Please try again in a moment.';
+      console.error('Gemini API error in /ask:', error.message);
+      answer = 'AI is temporarily unavailable. Please try again in a moment.';
     }
   }
 
