@@ -1,5 +1,6 @@
 import { ArrowRight, Brain, CheckCircle2, FileText, Menu, Sparkles, Upload, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { SplineScene } from '@/components/ui/splite';
 
 function FeatureCard({ icon: Icon, title, description, index }) {
   return (
@@ -19,8 +20,17 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-slate-900 text-white">
-      <div className="absolute inset-x-0 top-0 -z-0 h-[520px] bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.25),transparent_55%),linear-gradient(180deg,rgba(15,23,42,1),rgba(15,23,42,0.92))]" />
-      <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+      {/* Spline 3D background - layer 0 */}
+      <div className="fixed inset-0 top-0 left-0 w-full h-full z-0 pointer-events-none opacity-90">
+        <SplineScene scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" className="w-full h-full" />
+      </div>
+      
+      {/* Gradient overlay - layer 1 */}
+      <div className="fixed inset-0 top-0 left-0 h-full w-full z-0 pointer-events-none bg-gradient-to-b from-slate-900/70 to-slate-900/20" />
+      
+      {/* All content - layer 2+ */}
+      <div className="relative z-10">
+      <header className="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
         <button onClick={() => navigate('/')} className="flex items-center gap-2 text-lg font-bold tracking-tight text-white">
           <span className="grid h-10 w-10 place-items-center rounded-2xl bg-blue-500/15 text-2xl">🧠</span>
           <span>Second Brain</span>
@@ -33,7 +43,7 @@ export default function Landing() {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
+      <main className="relative mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
         <section className="grid min-h-[calc(100vh-92px)] place-items-center py-10">
           <div className="max-w-4xl text-center animate-fadeUp">
             <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/60 px-4 py-2 text-sm text-slate-200 shadow-lg shadow-slate-950/20">
@@ -146,6 +156,7 @@ The package contains a mechanical keyboard.
           </div>
         </section>
       </main>
+      </div>
     </div>
   );
 }
