@@ -1,18 +1,56 @@
 import { ArrowRight, Brain, CheckCircle2, FileText, Menu, Sparkles, Upload, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import PixelBlast from '@/components/ui/PixelBlast';
 import { SplineScene } from '@/components/ui/splite';
 
+function FadeIn({ children, delay = 0, className = "" }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1, rootMargin: "50px" }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => {
+      if (ref.current) observer.disconnect();
+    };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      } ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
 function FeatureCard({ icon: Icon, title, description, index }) {
   return (
-    <div className="rounded-3xl border border-slate-700/70 bg-slate-800/60 p-6 shadow-xl shadow-slate-950/30 backdrop-blur">
-      <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
-        <Icon size={22} />
+    <FadeIn delay={index * 150} className="h-full">
+      <div className="h-full rounded-3xl border border-slate-700/70 bg-slate-800/60 p-6 shadow-xl shadow-slate-950/30 backdrop-blur transition-all hover:-translate-y-1 hover:border-slate-600 hover:shadow-2xl">
+        <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
+          <Icon size={22} />
+        </div>
+        <div className="mb-2 text-sm font-semibold text-blue-300">0{index + 1}</div>
+        <h3 className="text-xl font-semibold text-white">{title}</h3>
+        <p className="mt-2 text-sm leading-6 text-slate-300">{description}</p>
       </div>
-      <div className="mb-2 text-sm font-semibold text-blue-300">0{index + 1}</div>
-      <h3 className="text-xl font-semibold text-white">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-slate-300">{description}</p>
-    </div>
+    </FadeIn>
   );
 }
 
@@ -87,10 +125,10 @@ export default function Landing() {
         </section>
 
         <section id="features" className="py-10">
-          <div className="mb-6 text-center">
+          <FadeIn className="mb-6 text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-400">How it works</p>
             <h2 className="mt-3 text-3xl font-bold text-white">Three steps from inbox to action</h2>
-          </div>
+          </FadeIn>
           <div className="grid gap-5 md:grid-cols-3">
             <FeatureCard icon={Upload} index={0} title="Upload Anything" description="Drop a PDF, paste an email, or type notes. We handle any format." />
             <FeatureCard icon={Brain} index={1} title="AI Processes It" description="Our AI reads, understands, and extracts every task and deadline." />
@@ -99,78 +137,88 @@ export default function Landing() {
         </section>
 
         <section className="py-14">
-          <div className="rounded-3xl border border-slate-700 bg-slate-800/60 p-6 shadow-2xl shadow-slate-950/30">
-            <h2 className="text-2xl font-bold text-white">Why not just use ChatGPT or Notion?</h2>
-            <div className="mt-6 overflow-hidden rounded-2xl border border-slate-700">
-              <table className="min-w-full divide-y divide-slate-700 text-left text-sm">
-                <thead className="bg-slate-900/60 text-slate-300">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">Feature</th>
-                    <th className="px-4 py-3 font-medium">Normal Tools</th>
-                    <th className="px-4 py-3 font-medium text-blue-300">AI Second Brain</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-700 bg-slate-800/40 text-slate-100">
-                  {[
-                    ['Auto-extracts tasks', '❌', '✅'],
-                    ['Proactive action plan', '❌', '✅'],
-                    ['Works on YOUR data', '❌', '✅'],
-                    ['Remembers context', '❌', '✅'],
-                    ['Tells you what to do', '❌', '✅'],
-                  ].map(([feature, normalTools, secondBrain]) => (
-                    <tr key={feature}>
-                      <td className="px-4 py-3 font-medium text-white">{feature}</td>
-                      <td className="px-4 py-3 text-slate-400">{normalTools}</td>
-                      <td className="px-4 py-3 font-semibold text-blue-300">{secondBrain}</td>
+          <FadeIn delay={200}>
+            <div className="rounded-3xl border border-slate-700 bg-slate-800/60 p-6 shadow-2xl shadow-slate-950/30">
+              <h2 className="text-2xl font-bold text-white">Why not just use ChatGPT or Notion?</h2>
+              <div className="mt-6 overflow-hidden rounded-2xl border border-slate-700">
+                <table className="min-w-full divide-y divide-slate-700 text-left text-sm">
+                  <thead className="bg-slate-900/60 text-slate-300">
+                    <tr>
+                      <th className="px-4 py-3 font-medium">Feature</th>
+                      <th className="px-4 py-3 font-medium">Normal Tools</th>
+                      <th className="px-4 py-3 font-medium text-blue-300">AI Second Brain</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-slate-700 bg-slate-800/40 text-slate-100">
+                    {[
+                      ['Auto-extracts tasks', '❌', '✅'],
+                      ['Proactive action plan', '❌', '✅'],
+                      ['Works on YOUR data', '❌', '✅'],
+                      ['Remembers context', '❌', '✅'],
+                      ['Tells you what to do', '❌', '✅'],
+                    ].map(([feature, normalTools, secondBrain]) => (
+                      <tr key={feature}>
+                        <td className="px-4 py-3 font-medium text-white">{feature}</td>
+                        <td className="px-4 py-3 text-slate-400">{normalTools}</td>
+                        <td className="px-4 py-3 font-semibold text-blue-300">{secondBrain}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          </FadeIn>
         </section>
 
         <section className="py-10">
-          <h2 className="text-2xl font-bold text-white">Paste this email -&gt; Get this output</h2>
+          <FadeIn>
+            <h2 className="text-2xl font-bold text-white">Paste this email -&gt; Get this output</h2>
+          </FadeIn>
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-3xl border border-slate-700 bg-slate-950 p-6">
-              <p className="mb-4 text-sm font-semibold text-slate-400">Raw email text</p>
-              <pre className="whitespace-pre-wrap text-sm leading-7 text-slate-300">
+            <FadeIn delay={100} className="h-full">
+              <div className="h-full rounded-3xl border border-slate-700 bg-slate-950 p-6">
+                <p className="mb-4 text-sm font-semibold text-slate-400">Raw email text</p>
+                <pre className="whitespace-pre-wrap text-sm leading-7 text-slate-300">
 Hi, your package is out for delivery tomorrow between 10AM and 6PM.
 Please keep the OTP ready before accepting the parcel.
 The package contains a mechanical keyboard.
-              </pre>
-            </div>
-            <div className="rounded-3xl border border-slate-700 bg-slate-800/60 p-6">
-              <p className="mb-4 text-sm font-semibold text-slate-400">Extracted tasks</p>
-              <div className="space-y-3">
-                {[
-                  ['Be available to receive delivery between 10AM-6PM', 'high'],
-                  ['Keep delivery OTP ready', 'high'],
-                  ['Verify package seal before accepting', 'medium'],
-                ].map(([task, priority]) => (
-                  <div key={task} className="rounded-2xl border border-slate-700 bg-slate-900/70 p-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="font-medium text-white">{task}</p>
-                      <span className={`rounded-full px-3 py-1 text-xs font-semibold ${priority === 'high' ? 'bg-red-500/15 text-red-300' : 'bg-amber-500/15 text-amber-300'}`}>
-                        {priority}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                </pre>
               </div>
-            </div>
+            </FadeIn>
+            <FadeIn delay={300} className="h-full">
+              <div className="h-full rounded-3xl border border-slate-700 bg-slate-800/60 p-6">
+                <p className="mb-4 text-sm font-semibold text-slate-400">Extracted tasks</p>
+                <div className="space-y-3">
+                  {[
+                    ['Be available to receive delivery between 10AM-6PM', 'high'],
+                    ['Keep delivery OTP ready', 'high'],
+                    ['Verify package seal before accepting', 'medium'],
+                  ].map(([task, priority]) => (
+                    <div key={task} className="rounded-2xl border border-slate-700 bg-slate-900/70 p-4 transition-all hover:-translate-y-0.5 hover:border-slate-600">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="font-medium text-white">{task}</p>
+                        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${priority === 'high' ? 'bg-red-500/15 text-red-300' : 'bg-amber-500/15 text-amber-300'}`}>
+                          {priority}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </FadeIn>
           </div>
         </section>
 
         <section className="py-14 text-center">
-          <h2 className="text-3xl font-black text-white sm:text-5xl">Ready to stop searching and start doing?</h2>
-          <button onClick={() => navigate('/auth')} className="mt-6 inline-flex items-center gap-2 rounded-full bg-blue-500 px-6 py-3.5 font-semibold text-white transition hover:bg-blue-600">
-            Upload Your First Document <ArrowRight size={16} />
-          </button>
-          <div className="mt-8 flex items-center justify-center gap-2 text-sm text-slate-400">
-            <FileText size={16} /> Built with love for hackathon 2026
-          </div>
+          <FadeIn delay={100}>
+            <h2 className="text-3xl font-black text-white sm:text-5xl">Ready to stop searching and start doing?</h2>
+            <button onClick={() => navigate('/auth')} className="mt-6 inline-flex items-center gap-2 rounded-full bg-blue-500 px-6 py-3.5 font-semibold text-white transition hover:bg-blue-600">
+              Upload Your First Document <ArrowRight size={16} />
+            </button>
+            <div className="mt-8 flex items-center justify-center gap-2 text-sm text-slate-400">
+              <FileText size={16} /> Built with love for hackathon 2026
+            </div>
+          </FadeIn>
         </section>
       </main>
       </div>
