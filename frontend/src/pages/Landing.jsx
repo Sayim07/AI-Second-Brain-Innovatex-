@@ -136,13 +136,13 @@ export default function Landing() {
         <section className="grid min-h-[calc(100vh-92px)] place-items-center py-10">
           <div className="max-w-4xl text-center animate-fadeUp">
 
-            <h1 className="text-balance text-4xl font-black tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="text-balance text-4xl font-black tracking-tight sm:text-6xl lg:text-7xl" style={{ textShadow: '0 0 40px rgba(59,130,246,0.45), 0 0 80px rgba(59,130,246,0.2)' }}>
               <ShinyText text="Turn Chaos Into" speed={3} color="#ffffff" shineColor="#3b82f6" />
-              <span className="block text-blue-400">
+              <span className="block text-blue-400" style={{ textShadow: '0 0 30px rgba(96,165,250,0.6), 0 0 60px rgba(59,130,246,0.3)' }}>
                 <ShinyText text="Clear Actions." speed={3} color="#60a5fa" shineColor="#ffffff" />
               </span>
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl" style={{ textShadow: '0 0 20px rgba(148,163,184,0.4)' }}>
               Upload emails, PDFs, and notes. Get a prioritized action plan in under 30 seconds.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -153,14 +153,14 @@ export default function Landing() {
                 See How It Works <ArrowRight size={16} className="rotate-90" />
               </button>
             </div>
-            <p className="mt-4 text-sm text-slate-400">No credit card. No setup. Just upload.</p>
+            <p className="mt-4 text-sm text-slate-400" style={{ textShadow: '0 0 12px rgba(148,163,184,0.35)' }}>No credit card. No setup. Just upload.</p>
           </div>
         </section>
 
         <section id="features" className="py-10">
           <FadeIn className="mb-6 text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-400">How it works</p>
-            <h2 className="mt-3 text-3xl font-bold text-white">Three steps from inbox to action</h2>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-400" style={{ textShadow: '0 0 14px rgba(96,165,250,0.7)' }}>How it works</p>
+            <h2 className="mt-3 text-3xl font-bold text-white" style={{ textShadow: '0 0 24px rgba(59,130,246,0.4), 0 0 48px rgba(59,130,246,0.15)' }}>Three steps from inbox to action</h2>
           </FadeIn>
           <div className="grid gap-5 md:grid-cols-3">
             <FeatureCard icon={Upload} index={0} title="Upload Anything" description="Drop a PDF, paste an email, or type notes. We handle any format." />
@@ -177,7 +177,7 @@ export default function Landing() {
               glowColor="217 91 60"
             >
               <div className="p-6">
-                <h2 className="text-2xl font-bold text-white">Why not just use ChatGPT or Notion?</h2>
+                <h2 className="text-2xl font-bold text-white" style={{ textShadow: '0 0 20px rgba(59,130,246,0.35)' }}>Why not just use ChatGPT or Notion?</h2>
                 <div className="mt-6 overflow-hidden rounded-2xl border border-slate-700">
                   <table className="min-w-full divide-y divide-slate-700 text-left text-sm">
                     <thead className="bg-slate-900/60 text-slate-300">
@@ -211,7 +211,7 @@ export default function Landing() {
 
         <section className="py-10">
           <FadeIn>
-            <h2 className="text-2xl font-bold text-white">Paste this email -&gt; Get this output</h2>
+            <h2 className="text-2xl font-bold text-white" style={{ textShadow: '0 0 20px rgba(59,130,246,0.35)' }}>Paste this email -&gt; Get this output</h2>
           </FadeIn>
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
             <FadeIn delay={100} className="h-full">
@@ -264,7 +264,7 @@ export default function Landing() {
 
         <section className="py-14 text-center">
           <FadeIn delay={100}>
-            <h2 className="text-3xl font-black text-white sm:text-5xl">Ready to stop searching and start doing?</h2>
+            <h2 className="text-3xl font-black text-white sm:text-5xl" style={{ textShadow: '0 0 32px rgba(59,130,246,0.5), 0 0 64px rgba(59,130,246,0.2)' }}>Ready to stop searching and start doing?</h2>
             <PillButton onClick={() => navigate('/auth')} className="mt-6 px-6 py-3.5 text-base">
               Upload Your First Document <ArrowRight size={16} />
             </PillButton>
