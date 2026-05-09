@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import PixelBlast from '@/components/ui/PixelBlast';
 import { SplineScene } from '@/components/ui/splite';
 import BorderGlow from '@/components/ui/BorderGlow';
+import PillButton from '@/components/ui/PillButton';
 
 function FadeIn({ children, delay = 0, className = "" }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -99,9 +100,9 @@ export default function Landing() {
         </button>
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/auth')} className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 sm:inline-flex">Sign In</button>
-          <button onClick={() => navigate('/auth')} className="inline-flex items-center gap-2 rounded-full bg-blue-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-600">
+          <PillButton onClick={() => navigate('/auth')} className="px-4 py-2.5 text-sm">
             Get Started <ArrowRight size={16} />
-          </button>
+          </PillButton>
         </div>
       </header>
 
@@ -117,9 +118,9 @@ export default function Landing() {
               Upload emails, PDFs, and notes. Get a prioritized action plan in under 30 seconds.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <button onClick={() => navigate('/auth')} className="inline-flex items-center gap-2 rounded-full bg-blue-500 px-6 py-3.5 font-semibold text-white transition hover:bg-blue-600">
+              <PillButton onClick={() => navigate('/auth')} className="px-6 py-3.5 text-base">
                 Start for Free <ArrowRight size={16} />
-              </button>
+              </PillButton>
               <button onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="inline-flex items-center gap-2 rounded-full border border-slate-600 bg-white/5 px-6 py-3.5 font-semibold text-white transition hover:bg-white/10">
                 See How It Works <ArrowRight size={16} className="rotate-90" />
               </button>
@@ -236,9 +237,9 @@ export default function Landing() {
         <section className="py-14 text-center">
           <FadeIn delay={100}>
             <h2 className="text-3xl font-black text-white sm:text-5xl">Ready to stop searching and start doing?</h2>
-            <button onClick={() => navigate('/auth')} className="mt-6 inline-flex items-center gap-2 rounded-full bg-blue-500 px-6 py-3.5 font-semibold text-white transition hover:bg-blue-600">
+            <PillButton onClick={() => navigate('/auth')} className="mt-6 px-6 py-3.5 text-base">
               Upload Your First Document <ArrowRight size={16} />
-            </button>
+            </PillButton>
 
           </FadeIn>
         </section>
