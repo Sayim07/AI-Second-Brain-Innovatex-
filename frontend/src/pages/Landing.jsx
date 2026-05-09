@@ -95,8 +95,7 @@ export default function Landing() {
       <div className="relative z-10">
       <header className="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
         <button onClick={() => navigate('/')} className="flex items-center gap-2 text-lg font-bold tracking-tight text-white">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-blue-500/15 text-2xl">🧠</span>
-          <span>Second Brain</span>
+          <span>Smriti</span>
         </button>
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/auth')} className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 sm:inline-flex">Sign In</button>
@@ -111,8 +110,8 @@ export default function Landing() {
           <div className="max-w-4xl text-center animate-fadeUp">
 
             <h1 className="text-balance text-4xl font-black tracking-tight sm:text-6xl lg:text-7xl">
-              Your AI does not just store information -
-              <span className="block text-blue-400">it tells you exactly what to do next.</span>
+              Turn Chaos Into
+              <span className="block text-blue-400">Clear Actions.</span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
               Upload emails, PDFs, and notes. Get a prioritized action plan in under 30 seconds.
