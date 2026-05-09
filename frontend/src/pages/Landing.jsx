@@ -98,7 +98,8 @@ export default function Landing() {
       {/* All content - layer 2+ */}
       <div className="relative z-10">
       <header className="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
-        <button onClick={() => navigate('/')} className="flex items-center gap-2 text-lg font-bold tracking-tight text-white">
+        <button onClick={() => navigate('/')} className="flex items-center gap-3 text-lg font-bold tracking-tight text-white">
+          <img src="/logo.png" alt="Smriti Logo" className="w-10 h-10 object-contain drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" />
           <TrueFocus
             manualMode={false}
             borderColor="#3b82f6"
