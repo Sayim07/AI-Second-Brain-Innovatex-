@@ -184,7 +184,7 @@ export default function AskAI() {
             <div className="space-y-4 overflow-y-auto px-4 py-6 sm:px-6">
               {messages.length === 0 ? (
                 <div className="mx-auto max-w-2xl text-center">
-                  <div className="mx-auto mb-4 grid h-20 w-20 place-items-center rounded-3xl bg-blue-50 text-4xl">🧠</div>
+                  <div className="mx-auto mb-4 grid h-20 w-20 place-items-center rounded-3xl bg-blue-50 text-4xl text-blue-600"><Sparkles size={40} /></div>
                   <h2 className="text-2xl font-black text-slate-900">What would you like to know?</h2>
                   <p className="mt-2 text-sm text-slate-500">I have access to all your uploaded documents.</p>
                   <div className="mt-6 grid gap-3 sm:grid-cols-2">

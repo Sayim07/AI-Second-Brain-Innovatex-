@@ -137,7 +137,7 @@ export default function Upload() {
         </button>
 
         <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
-          <h1 className="text-3xl font-black tracking-tight text-slate-900">Add to Your Second Brain</h1>
+          <h1 className="text-3xl font-black tracking-tight text-slate-900">Add to Your Smriti</h1>
           <p className="mt-2 text-slate-500">Upload a PDF or paste text. We'll extract your tasks automatically.</p>
 
           <div className="mt-6 flex rounded-full bg-slate-100 p-1 text-sm font-semibold text-slate-500">

@@ -200,14 +200,14 @@ export default function Dashboard() {
           <header className="mb-6 flex items-center justify-between rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
             <div>
               <p className="text-sm text-slate-500">Good to see you{user?.displayName ? `, ${user.displayName}` : ''}</p>
-              <h1 className="text-2xl font-black text-slate-900">Second Brain</h1>
+              <h1 className="text-2xl font-black text-slate-900">Smriti</h1>
             </div>
             <div className="flex gap-2">
               <button onClick={() => navigate('/upload')} className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white">Add Document</button>
               <button onClick={signOut} className="rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold">Sign Out</button>
             </div>
           </header>
-          <EmptyState icon="🧠" title="Your Second Brain is empty" subtitle="Upload your first document to get started." actionLabel="Upload Document" onAction={() => navigate('/upload')} />
+          <EmptyState icon="📄" title="Your Smriti is empty" subtitle="Upload your first document to get started." actionLabel="Upload Document" onAction={() => navigate('/upload')} />
         </div>
       </div>
     );
@@ -219,7 +219,7 @@ export default function Dashboard() {
         <header className="sticky top-4 z-20 rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex items-center gap-4">
-              <button onClick={() => navigate('/')} className="flex items-center gap-2 font-black text-slate-900"><Brain className="text-blue-600" /> Second Brain</button>
+              <button onClick={() => navigate('/')} className="flex items-center gap-2 font-black text-slate-900"><Brain className="text-blue-600" /> Smriti</button>
               <div className="hidden h-10 w-px bg-slate-200 lg:block" />
               <p className="text-sm text-slate-500">Good morning, {user?.displayName || user?.email || 'there'} 👋</p>
             </div>

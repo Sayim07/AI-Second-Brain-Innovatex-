@@ -95,10 +95,10 @@ export default function Auth() {
       <aside className="hidden flex-col justify-between bg-[linear-gradient(160deg,#1e3a8a_0%,#1e40af_100%)] px-10 py-12 text-white lg:flex">
         <div>
           <div className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-blue-100">
-            <Sparkles size={16} /> AI Second Brain
+            <Sparkles size={16} /> Smriti
           </div>
-          <div className="mt-16 text-7xl">🧠</div>
-          <h1 className="mt-6 text-5xl font-black tracking-tight">AI Second Brain</h1>
+
+          <h1 className="mt-6 text-5xl font-black tracking-tight">Smriti</h1>
           <p className="mt-5 max-w-md text-lg leading-8 text-blue-100">Your personal system for extracting tasks, deadlines, and action items from the things you already read.</p>
         </div>
         <div className="space-y-4 text-base text-blue-50">
@@ -111,8 +111,8 @@ export default function Auth() {
       <main className="flex items-center justify-center bg-slate-50 px-4 py-10 sm:px-6 lg:px-10">
         <div className="w-full max-w-lg rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_24px_80px_rgba(15,23,42,0.12)] sm:p-8">
           <div className="mb-8 lg:hidden">
-            <div className="text-4xl">🧠</div>
-            <h1 className="mt-3 text-3xl font-black text-slate-900">AI Second Brain</h1>
+
+            <h1 className="mt-3 text-3xl font-black text-slate-900">Smriti</h1>
             <p className="mt-2 text-sm text-slate-500">Sign in or create an account to continue.</p>
           </div>
 

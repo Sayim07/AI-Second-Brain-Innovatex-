@@ -1,6 +1,6 @@
-# AI Second Brain
+# Smriti
 
-AI Second Brain is a full-stack document intelligence app that turns emails, PDFs, and pasted notes into tasks, deadlines, and actionable summaries. The goal is simple: upload information once, then let the app surface what matters next instead of making you search through context manually.
+Smriti is a full-stack document intelligence app that turns emails, PDFs, and pasted notes into tasks, deadlines, and actionable summaries. The goal is simple: upload information once, then let the app surface what matters next instead of making you search through context manually.
 
 The backend uses Node.js, Express, MongoDB, Firebase Auth, Gemini, and Groq fallback processing. The frontend uses React, Vite, Tailwind CSS, and a task-focused UX for landing, authentication, upload, dashboard, document history, and ask-ai workflows.
 

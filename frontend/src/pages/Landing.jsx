@@ -155,7 +155,7 @@ export default function Landing() {
                       <tr>
                         <th className="px-4 py-3 font-medium">Feature</th>
                         <th className="px-4 py-3 font-medium">Normal Tools</th>
-                        <th className="px-4 py-3 font-medium text-blue-300">AI Second Brain</th>
+                        <th className="px-4 py-3 font-medium text-blue-300">Smriti</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-700 bg-slate-800/40 text-slate-100">
