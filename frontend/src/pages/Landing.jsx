@@ -5,6 +5,8 @@ import PixelBlast from '@/components/ui/PixelBlast';
 import { SplineScene } from '@/components/ui/splite';
 import BorderGlow from '@/components/ui/BorderGlow';
 import PillButton from '@/components/ui/PillButton';
+import RotatingText from '@/components/ui/RotatingText';
+import TrueFocus from '@/components/ui/TrueFocus';
 
 function FadeIn({ children, delay = 0, className = "" }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -96,7 +98,30 @@ export default function Landing() {
       <div className="relative z-10">
       <header className="relative mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
         <button onClick={() => navigate('/')} className="flex items-center gap-2 text-lg font-bold tracking-tight text-white">
-          <span>Smriti</span>
+          <TrueFocus
+            manualMode={false}
+            borderColor="#3b82f6"
+            glowColor="rgba(59, 130, 246, 0.6)"
+            animationDuration={0.6}
+            pauseBetweenAnimations={2}
+            className="flex items-center gap-2"
+          >
+            <span className="text-xl font-bold tracking-tight text-white">Smriti</span>
+            <span className="hidden sm:inline-flex items-center text-sm font-medium text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">
+              <RotatingText
+                texts={['Your second AI Brain', 'Your Action Engine', 'Your Smart Assistant']}
+                mainClassName="overflow-hidden"
+                staggerFrom="last"
+                initial={{ y: '100%' }}
+                animate={{ y: 0 }}
+                exit={{ y: '-120%' }}
+                staggerDuration={0.025}
+                splitLevelClassName="overflow-hidden"
+                transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+                rotationInterval={3000}
+              />
+            </span>
+          </TrueFocus>
         </button>
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/auth')} className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10 sm:inline-flex">Sign In</button>
