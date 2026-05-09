@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import PixelBlast from '@/components/ui/PixelBlast';
 import { SplineScene } from '@/components/ui/splite';
 import BorderGlow from '@/components/ui/BorderGlow';
+import ShinyText from '@/components/ui/ShinyText';
 import PillButton from '@/components/ui/PillButton';
 import RotatingText from '@/components/ui/RotatingText';
 import TrueFocus from '@/components/ui/TrueFocus';
@@ -136,8 +137,10 @@ export default function Landing() {
           <div className="max-w-4xl text-center animate-fadeUp">
 
             <h1 className="text-balance text-4xl font-black tracking-tight sm:text-6xl lg:text-7xl">
-              Turn Chaos Into
-              <span className="block text-blue-400">Clear Actions.</span>
+              <ShinyText text="Turn Chaos Into" speed={3} color="#ffffff" shineColor="#3b82f6" />
+              <span className="block text-blue-400">
+                <ShinyText text="Clear Actions." speed={3} color="#60a5fa" shineColor="#ffffff" />
+              </span>
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300 sm:text-xl">
               Upload emails, PDFs, and notes. Get a prioritized action plan in under 30 seconds.
